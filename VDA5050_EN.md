@@ -370,7 +370,7 @@ The header is not a JSON object.
 Object structure/Identifier | Data type | Description 
 ---|---|---
 headerId | uint32 | header ID of the message.<br> The headerId is defined per topic and incremented by 1 with each sent (but not necessarily received) message. 
-timestamp | string | Timestamp (ISO 8601, UTC); YYYY-MM-DDTHH:mm:ss.ssZ (e.g.“2017-04-15T11:40:03.12Z”)
+timestamp | string | Timestamp (see [Chapter 7.3](#73-format-of-timestamp) for formatting and examples).
 version | string | Version of the protocol [Major].[Minor].[Patch] (e.g. 1.3.2)
 manufacturer | string | Manufacturer of the AGV 
 serialNumber | string | Serial number of the AGV 
@@ -676,7 +676,7 @@ The orientation must be in radians and must be within +Pi and –Pi.
 Object structure | Unit | Data type | Description 
 ---|---|---|---
 headerId | | uint32 | Header ID of the message.<br> The headerId is defined per topic and incremented by 1 with each sent (but not necessarily received) message. 
-timestamp | | string | Timestamp (ISO 8601, UTC); YYYY-MM-DDTHH:mm:ss.ssZ (e.g.“2017-04-15T11:40:03.12Z”)
+timestamp | | string | Timestamp (see [Chapter 7.3](#73-format-of-timestamp) for formatting and examples).
 version | | string | Version of the protocol [Major].[Minor].[Patch] (e.g. 1.3.2)
 manufacturer | | string | Manufacturer of the AGV 
 serialNumber | | string | Serial number of the AGV 
@@ -836,7 +836,7 @@ For additional information, see chapter 8 Best practices.
 Object structure | | Data type | Description 
 ---|---|---|---
 headerId | | uint32 | header ID of the message.<br> The headerId is defined per topic and incremented by 1 with each sent (but not necessarily received) message. 
-timestamp | | string | Timestamp (ISO 8601, UTC); YYYY-MM-DDTHH:mm:ss.ssZ (e.g., “2017-04-15T11:40:03.12Z”)
+timestamp | | string | Timestamp (see [Chapter 7.3](#73-format-of-timestamp) for formatting and examples).
 version | | string | Version of the protocol [Major].[Minor].[Patch] (e.g., 1.3.2).
 manufacturer | | string | Manufacturer of the AGV. 
 serialNumber | | string | Serial number of the AGV.
@@ -936,7 +936,7 @@ Errors can pass references that help with finding the cause of the error via the
 Object structure | Unit | Data type | Description 
 ---|---|---|---
 headerId | | uint32 | Header ID of the message.<br> The headerId is defined per topic and incremented by 1 with each sent (but not necessarily received) message. 
-timestamp | | string | Timestamp (ISO 8601, UTC); YYYY-MM-DDTHH:mm:ss.ssZ (e.g.“2017-04-15T11:40:03.12Z”).
+timestamp | | string | Timestamp (see [Chapter 7.3](#73-format-of-timestamp) for formatting and examples).
 version | | string | Version of the protocol [Major].[Minor].[Patch] (e.g. 1.3.2).
 manufacturer | | string | Manufacturer of the AGV.
 serialNumber | | string | Serial number of the AGV.
@@ -1165,7 +1165,7 @@ The last will message is defined as a JSON encapsulated message with the followi
 Identifier | Data type | Description 
 ---|---|---
 headerId | uint32 | Header ID of the message. <br>The headerId is defined per topic and incremented by 1 with each sent (but not necessarily received) message.
-timestamp | string | Timestamp (ISO8601, UTC); YYYY-MM-DDTHH:mm:ss.ssZ(e.g.“2017-04-15T11:40:03.12Z”).
+timestamp | string | Timestamp (see [Chapter 7.3](#73-format-of-timestamp) for formatting and examples).
 version | string | Version of the protocol [Major].[Minor].[Patch] (e.g. 1.3.2).
 manufacturer | string | Manufacturer of the AGV. 
 serialNumber | string | Serial number of the AGV. 
@@ -1211,7 +1211,7 @@ The factsheet consists of the JSON-objects listed in the following table.
 | **Field**                  | **data type** | **description**                                              |
 | -------------------------- | ------------- | ------------------------------------------------------------ |
 | headerId                   | uint32        | Header ID of the message. <br>The headerId is defined per topic and incremented by 1 with each sent (but not necessarily received) message. |
-| timestamp                  | string        | Timestamp (ISO8601, UTC); YYYY-MM-DDTHH:mm:ss.ssZ(e.g.“2017-04-15T11:40:03.12Z”). |
+| timestamp                  | string        | Timestamp (see [Chapter 7.3](#73-format-of-timestamp) for formatting and examples). |
 | version                    | string        | Version of the protocol [Major].[Minor].[Patch] (e.g. 1.3.2). |
 | manufacturer               | string        | Manufacturer of the AGV.                                     |
 | serialNumber               | string        | Serial number of the AGV.                                     |
@@ -1424,6 +1424,35 @@ Sample for the actionParameter of an action “someAction” with key-value-pair
 The reason for using the proposed scheme of “key”: “actualKey”, “value”: “actualValue” is to keep the implementation generic. 
 This was thoroughly and controversially discussed in multiple meetings.
 
+## 7.3 Format of Timestamp
+
+Timestamps should be represented in the following format:
+```
+YYYY-MM-DDThh:mm:ss.ffZ
+```
+This is based on ISO 8601 (2019). The components are defined as shown below:
+
+|Entry|Meaning|Example|
+|---|---|---|
+|YYYY| Year with four digits|2017, 2022|
+|-|Separating years and months||
+|MM| Month with two digits|01, 12|
+|-|Separating months and days||
+|DD| Day with two digits| 01, 14, 31|
+|T| Terminal character of the date and separator between date and time| |
+|hh| Hours in 24-hour format with two digits|00, 12, 23|
+|:|Separating hours and minutes||
+|mm| Minutes with two digits|00, 30, 59|
+|:| Separating minutes and seconds||
+|ss| Seconds with two digits|00, 30, 59|
+|.| Separating seconds and fractions of seconds||
+|f,ff,fff,...| Fractions of seconds with any number of digits, recommended are two digits (hundredths of seconds)|1, 01, 001, 9, 99, 999|
+|Z|Terminal character of the time specification and final character of the timestamp| |
+
+Examples for a valid timestamp are:
+- "1991-03-11T11:40:03.12Z"
+- "1995-09-26T00:00:00.0Z"
+- "2019-12-31T23:59:59.999Z"
 
 
 # 8 Glossary 
